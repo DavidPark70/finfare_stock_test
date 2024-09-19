@@ -1,30 +1,21 @@
 import pytest
-from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
-from selenium.webdriver.chrome.options import Options
 from stock_page import StockPage
+from chrome_driver import ChromeDriver
 
 TEST_DATA = ["NFLX", "MSFT", "TSLA"]
 
 @pytest.fixture(scope='module')
 def driver():
     print('start driver')
-
-     # Set up Chrome options
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')  # Headless mode
-    chrome_options.add_argument('--no-sandbox')  # Required in some CI environments
-    chrome_options.add_argument('--disable-dev-shm-usage')  # Overcomes limited resource problems
-    chrome_options.add_argument('--window-size=1920,1080')  # Set the window size
-
-    # Initialize WebDriver with options
-    driver = webdriver.Chrome(options=chrome_options)
+    chrome_driver_instance = ChromeDriver()
+    driver = chrome_driver_instance.get_driver()
     yield driver
 
     print('close driver')
     driver.quit()
 
-def test_problem1(driver: WebDriver):
+def test_problem1(driver: ChromeDriver):
     page_object = StockPage(driver)
 
     assert page_object.open_page('https://www.google.com/finance/') != None, 'failed to find page title after opening'
