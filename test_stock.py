@@ -1,9 +1,6 @@
 import pytest
-from time import sleep
-
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
-
 from stock_page import StockPage
 
 TEST_DATA = ["NFLX", "MSFT", "TSLA"]
