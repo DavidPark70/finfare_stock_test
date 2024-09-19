@@ -1,6 +1,7 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.chrome.options import Options
 from stock_page import StockPage
 
 TEST_DATA = ["NFLX", "MSFT", "TSLA"]
@@ -8,7 +9,16 @@ TEST_DATA = ["NFLX", "MSFT", "TSLA"]
 @pytest.fixture(scope='module')
 def driver():
     print('start driver')
-    driver = webdriver.Chrome()
+
+     # Set up Chrome options
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')  # Headless mode
+    chrome_options.add_argument('--no-sandbox')  # Required in some CI environments
+    chrome_options.add_argument('--disable-dev-shm-usage')  # Overcomes limited resource problems
+    chrome_options.add_argument('--window-size=1920,1080')  # Set the window size
+
+    # Initialize WebDriver with options
+    driver = webdriver.Chrome(options=chrome_options)
     yield driver
 
     print('close driver')
